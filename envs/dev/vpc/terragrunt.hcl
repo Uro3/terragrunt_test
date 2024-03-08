@@ -3,7 +3,7 @@ include "root" {
 }
 
 terraform {
-  source = "${path_relative_from_include()}/modules/network"
+  source = "${path_relative_from_include()}/modules/vpc"
 }
 
 inputs = {

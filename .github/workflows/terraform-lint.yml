@@ -1,0 +1,38 @@
+name: terraform lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  terraform_version: '1.7.4'
+  terragrunt_version: '0.54.16'
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.terraform_version }}
+      - name: Check Terraform format
+        run: terraform fmt -check -diff -recursive modules
+
+  hclfmt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check terragrunt HCL format
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.terraform_version }}
+          tg_version: ${{ env.terragrunt_version }}
+          tg_dir: /
+          tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'

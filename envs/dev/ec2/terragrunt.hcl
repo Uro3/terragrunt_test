@@ -4,6 +4,10 @@ include "root" {
 
 dependency "vpc" {
   config_path = "../vpc"
+
+  mock_outputs = {
+    public_subnet_id = "fake"
+  }
 }
 
 terraform {

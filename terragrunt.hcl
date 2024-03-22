@@ -3,7 +3,7 @@ locals {
   env      = local.env_vars.locals.env
   bucket   = local.env_vars.locals.backend_config.bucket
 
-  service  = "tgtest"
+  service = "tgtest"
 }
 
 remote_state {

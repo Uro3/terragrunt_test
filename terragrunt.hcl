@@ -1,6 +1,6 @@
 locals {
   env_vars = read_terragrunt_config(find_in_parent_folders("env.hcl"))
-  env      = local.env_vars.locals.env
+  env       = local.env_vars.locals.env
   bucket   = local.env_vars.locals.backend_config.bucket
 
   service = "tgtest"

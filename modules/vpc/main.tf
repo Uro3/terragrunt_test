@@ -71,7 +71,7 @@ resource "aws_route_table_association" "private" {
 }
 
 resource "aws_security_group" "public_web" {
-  name = "${var.name_prefix}-public-web-sg"
+  name   = "${var.name_prefix}-public-web-sg"
   vpc_id = aws_vpc.this.id
 
   ingress {

@@ -3,17 +3,17 @@ output "public_subnet_id" {
   value       = aws_subnet.public.id
 }
 
-output "route_table_id_map" {
-  description = "ルートテーブルID"
-  value = {
-    public   = aws_route_table.public.id
-    private  = aws_route_table.private.id
-  }
+output "public_route_table_id" {
+  description = "パブリックサブネット用のルートテーブルのID"
+  value = aws_route_table.public.id
 }
 
-output "security_group_id_map" {
+output "private_route_table_id" {
+  description = "プライベートサブネット用のルートテーブルのID"
+  value = aws_route_table.private.id
+}
+
+output "public_web_security_group_id" {
   description = "セキュリティグループID"
-  value = {
-    public_web = aws_security_group.public_web.id
-  }
+  value = aws_security_group.public_web.id
 }

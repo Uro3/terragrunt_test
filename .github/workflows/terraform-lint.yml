@@ -52,10 +52,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.tflint.d/plugins
-          key: tflint-${{ hashFiles('.tflint.hcl') }}
+          key: tflint-${{ hashFiles('modules/.tflint.hcl') }}
       - name: Init TFLint
         run: tflint --init
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Run TFLint
-        run: tflint
+        run: tflint --recursive

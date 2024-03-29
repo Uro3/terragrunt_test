@@ -73,5 +73,6 @@ jobs:
         with:
           working_directory: modules
           tfsec_version: latest
+          tfsec_formats: default
           soft_fail_commenter: true
           github_token: ${{ github.token }}

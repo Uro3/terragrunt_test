@@ -59,3 +59,19 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Run TFLint
         run: tflint --recursive
+
+  tfsec:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          working_directory: modules
+          tfsec_version: latest
+          soft_fail_commenter: true
+          github_token: ${{ github.token }}

@@ -1,0 +1,46 @@
+name: terraform plan
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  terraform_version: 1.7.4
+  terragrunt_version: 0.54.16
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [prod, dev]
+    environment: ${{ matrix.target }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Terraform Plugin Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.terraform.d/plugin-cache
+          key: ${{ runner.os }}-terraform-plugin-${{ hashFiles('**/.terraform.lock.hcl') }}
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+          TF_PLUGIN_CACHE_DIR: /github/workspace/.terraform.d/plugin-cache
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tf_version: ${{ env.terraform_version }}
+          tg_version: ${{ env.terragrunt_version }}
+          tg_dir: envs/${{ matrix.target }}
+          tg_command: run-all plan
+          tg_comment: 1
